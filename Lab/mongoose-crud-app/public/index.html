@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Registration</title>
+</head>
+<body>
+
+<h2>Student Registration Form</h2>
+
+<input id="prn" placeholder="PRN"><br><br>
+<input id="name" placeholder="Name"><br><br>
+<input id="marks" placeholder="CIE Marks"><br><br>
+
+<button onclick="addStudent()">Add Student</button>
+
+<h3>Student List</h3>
+<ul id="list"></ul>
+
+<script>
+const API = "http://localhost:3000/api/students";
+
+// ➤ Add Student
+function addStudent() {
+    fetch(API, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            prn: document.getElementById("prn").value,
+            name: document.getElementById("name").value,
+            cieMarks: document.getElementById("marks").value
+        })
+    }).then(() => loadStudents());
+}
+
+// ➤ Load Students
+function loadStudents() {
+    fetch(API)
+    .then(res => res.json())
+    .then(data => {
+        let list = document.getElementById("list");
+        list.innerHTML = "";
+
+        data.forEach(s => {
+            list.innerHTML += `
+                <li>
+                    ${s.name} - ${s.prn} - ${s.cieMarks}
+                    <button onclick="deleteStudent('${s._id}')">Delete</button>
+                </li>
+            `;
+        });
+    });
+}
+
+// ➤ Delete Student
+function deleteStudent(id) {
+    fetch(`${API}/${id}`, { method: "DELETE" })
+    .then(() => loadStudents());
+}
+
+loadStudents();
+</script>
+
+</body>
+</html>

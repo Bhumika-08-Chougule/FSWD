@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voter Registration Form</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="form-box">
+        <h2>Voter Registration </h2>
+
+        <form onsubmit="return validateForm()">
+
+            <label>Name : </label>
+            <input type="text" id="name" placeholder="Enter Name" required> 
+            <div class="error" id="nameError"> </div>
+
+            <label>Age : </label>
+            <input type="number" id="age" placeholder="Enter Age" required> 
+             <div class="error" id="ageError"> </div>
+
+            <label>Email : </label>
+            <input type="text" id="email" placeholder="Enter Email" required> 
+             <div class="error" id="emailError"> </div>
+
+            <label>Phone : </label>
+            <input type="number" id="phone" placeholder="Enter Phone" required> 
+             <div class="error" id="phoneError"> </div>
+
+            <button type="submit">Register</button>
+
+        </form>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Adhar Card</title>
+</head>
+<body>
+    <h2>Adhar Card Generator</h2>
+
+    <div class="form-box">
+        <label>Name : </label><br>
+        <input required type="text" id="name" placeholder="Enter Name "><br>
+        <label>Date of Birth : </label><br>
+        <input required type="text" id="dob" placeholder="Enter Birth Date "><br>
+        <label>Gender : </label><br>
+        <input required type="text" id="gender" placeholder="Enter Gender"><br>
+        <label>Adhar Number : </label><br>
+        <input required type="text" id="adhar" placeholder="Enter Adhar Number"><br>
+        <label>ID photo : </label><br>
+        <input required type="file" id="photo"><br>
+        <button onclick="generateCard()"> Generate Card </button>
+    </div>
+    <div id="Card" class="Card">
+        <div class="header"> 
+            <h2>Government of India</h2>
+        </div>
+
+        <img id="cardPhoto" class="photo"><br>
+
+        <p><b>Name :</b> <span id="cardName"></span></p>
+        <p><b>DOB :</b> <span id="cardDOB"></span></p>
+        <p><b>Gender :</b> <span id="cardGender"></span></p>
+        <p><b>Adhar No :</b> <span id="cardAdhar"></span></p>
+
+        <div class="footer">
+            Unique Identification Authority of India
+        </div>
+    </div>
+    <script>
+        function generateCard(){
+            document.getElementById("Card").style.display="block";
+
+            document.getElementById("cardName").innerText = document.getElementById("name").value;
+
+            document.getElementById("cardDOB").innerText = document.getElementById("dob").value;
+
+            document.getElementById("cardGender").innerText = document.getElementById("gender").value;
+
+            document.getElementById("cardAdhar").innerText = document.getElementById("adhar").value;
+
+            const file = document.getElementById("photo").files[0];
+
+            const reader = new FileReader();
+            
+            reader.onload = function(){
+                document.getElementById("cardPhoto").src = reader.result;
+            }
+
+            if(file){
+                reader.readAsDataURL(file);
+            }
+        }
+    </script>
+</body>
+</html>
