@@ -37,9 +37,9 @@ exports.checkout = async (req, res, next) => {
         calculatedTotal += Number(course.price);
         purchasedCourseIds.push(String(course._id));
 
-        // Increment student enrollment count
+        // Increment student enrollment count (Supabase-compatible)
         await Course.findByIdAndUpdate(course._id, {
-          $inc: { studentsEnrolled: 1 }
+          studentsEnrolled: (course.studentsEnrolled || 0) + 1
         });
       }
     }

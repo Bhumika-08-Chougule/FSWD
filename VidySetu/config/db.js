@@ -1,21 +1,21 @@
-const mongoose = require('mongoose');
+const supabase = require('./supabase');
 
-let isConnected = false;
-let dbMode = 'local'; // 'mongodb' or 'local'
+let dbMode = 'supabase';
 
 const connectDB = async () => {
-  const uri = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/smartedu';
   try {
-    const conn = await mongoose.connect(uri, {
-      serverSelectionTimeoutMS: 2000,
-    });
-    isConnected = true;
-    dbMode = 'mongodb';
-    console.log(`[SmartEdu DB] MongoDB connected successfully: ${conn.connection.host}`);
-  } catch (error) {
-    console.warn(`[SmartEdu DB] MongoDB connection failed (${error.message}).`);
-    console.log(`[SmartEdu DB] Gracefully switching to persistent local JSON datastore at ./data.`);
-    isConnected = false;
+    // Ping Supabase by fetching a single row from users table
+    const { error } = await supabase.from('users').select('id').limit(1);
+    if (error && error.code !== 'PGRST116') {
+      // PGRST116 = no rows found, which is fine
+      throw new Error(error.message);
+    }
+    dbMode = 'supabase';
+    console.log('[SmartEdu DB] ✅ Supabase connected successfully!');
+    console.log(`[SmartEdu DB]    Project: ulknyrfeqmyjgoumplrk.supabase.co`);
+  } catch (err) {
+    console.error(`[SmartEdu DB] ❌ Supabase connection failed: ${err.message}`);
+    console.log('[SmartEdu DB] 💾 Falling back to local JSON datastore...');
     dbMode = 'local';
   }
   return dbMode;

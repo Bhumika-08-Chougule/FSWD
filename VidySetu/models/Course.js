@@ -1,119 +1,168 @@
-const mongoose = require('mongoose');
-const { getCollection } = require('../config/localStore');
+const supabase = require('../config/supabase');
 const { getDbMode } = require('../config/db');
+const { getCollection } = require('../config/localStore');
 
-// Mongoose Schema
-const courseSchema = new mongoose.Schema(
-  {
-    title: { type: String, required: true, trim: true },
-    description: { type: String, required: true },
-    category: {
-      type: String,
-      required: true,
-      enum: [
-        'Web Development',
-        'Artificial Intelligence',
-        'Cloud Computing',
-        'Cyber Security',
-        'Data Science',
-        'Mobile Development'
-      ]
-    },
-    price: { type: Number, required: true, default: 0 },
-    thumbnailUrl: { type: String, required: true },
-    contentUrl: { type: String, default: 'https://www.youtube.com/embed/dQw4w9WgXcQ' },
-    difficulty: {
-      type: String,
-      required: true,
-      enum: ['Beginner', 'Intermediate', 'Advanced'],
-      default: 'Beginner'
-    },
-    tags: [{ type: String, trim: true }],
-    teacherId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-    teacherName: { type: String, required: true },
-    rating: { type: Number, default: 4.8 },
-    numReviews: { type: Number, default: 0 },
-    studentsEnrolled: { type: Number, default: 0 },
-    durationHours: { type: Number, default: 12 },
-    lessonsCount: { type: Number, default: 24 },
-    syllabus: [
-      {
-        sectionTitle: String,
-        duration: String,
-        lessons: [{ title: String, duration: String, isFree: Boolean }]
-      }
-    ],
-    features: [{ type: String }]
-  },
-  { timestamps: true }
-);
+// ----------------------------------------------------------------
+// Helper: normalize Supabase row → camelCase for app compatibility
+// ----------------------------------------------------------------
+function normalize(course) {
+  if (!course) return null;
+  course._id = course._id || course.id;
+  course.teacherId = course.teacherId || course.teacher_id;
+  course.teacherName = course.teacherName || course.teacher_name;
+  course.thumbnailUrl = course.thumbnailUrl || course.thumbnail_url;
+  course.contentUrl = course.contentUrl || course.content_url;
+  course.numReviews = course.numReviews !== undefined ? course.numReviews : course.num_reviews;
+  course.studentsEnrolled = course.studentsEnrolled !== undefined ? course.studentsEnrolled : course.students_enrolled;
+  course.durationHours = course.durationHours !== undefined ? course.durationHours : course.duration_hours;
+  course.lessonsCount = course.lessonsCount !== undefined ? course.lessonsCount : course.lessons_count;
+  course.syllabus = course.syllabus || [];
+  course.features = course.features || ['Full Lifetime Access', 'Hands-on Projects', 'Certificate of Completion'];
+  return course;
+}
 
-const MongooseCourse = mongoose.models.Course || mongoose.model('Course', courseSchema);
-
-// Universal Course Adapter
-const Course = {
+// ----------------------------------------------------------------
+// Supabase Implementation
+// ----------------------------------------------------------------
+const SupabaseCourse = {
   async create(courseData) {
-    if (getDbMode() === 'mongodb') {
-      return await MongooseCourse.create(courseData);
-    }
-    const collection = getCollection('courses');
-    return await collection.create({
-      ...courseData,
-      rating: courseData.rating || 4.5,
-      numReviews: courseData.numReviews || 0,
-      studentsEnrolled: courseData.studentsEnrolled || 0,
-      durationHours: courseData.durationHours || 12,
-      lessonsCount: courseData.lessonsCount || (courseData.syllabus ? courseData.syllabus.reduce((acc, s) => acc + (s.lessons?.length || 0), 0) : 18),
-      features: courseData.features || ['Full Lifetime Access', 'Hands-on Projects', 'Certificate of Completion']
-    });
+    const { data, error } = await supabase
+      .from('courses')
+      .insert({
+        title: courseData.title,
+        description: courseData.description,
+        category: courseData.category,
+        price: courseData.price || 0,
+        thumbnail_url: courseData.thumbnailUrl || courseData.thumbnail_url,
+        content_url: courseData.contentUrl || courseData.content_url || 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+        difficulty: courseData.difficulty || 'Beginner',
+        tags: courseData.tags || [],
+        teacher_id: courseData.teacherId || courseData.teacher_id,
+        teacher_name: courseData.teacherName || courseData.teacher_name,
+        rating: courseData.rating || 4.5,
+        num_reviews: courseData.numReviews || 0,
+        students_enrolled: courseData.studentsEnrolled || 0,
+        duration_hours: courseData.durationHours || 12,
+        lessons_count: courseData.lessonsCount || (courseData.syllabus
+          ? courseData.syllabus.reduce((acc, s) => acc + (s.lessons?.length || 0), 0)
+          : 18),
+        syllabus: courseData.syllabus || [],
+        features: courseData.features || ['Full Lifetime Access', 'Hands-on Projects', 'Certificate of Completion']
+      })
+      .select()
+      .single();
+
+    if (error) throw new Error(error.message);
+    return normalize(data);
   },
 
   async find(filter = {}) {
-    if (getDbMode() === 'mongodb') {
-      return await MongooseCourse.find(filter);
+    let query = supabase.from('courses').select('*');
+    if (filter.category) query = query.eq('category', filter.category);
+    if (filter.teacher_id || filter.teacherId) {
+      query = query.eq('teacher_id', filter.teacher_id || filter.teacherId);
     }
-    const collection = getCollection('courses');
-    return await collection.find(filter);
+
+    const { data, error } = await query.order('created_at', { ascending: false });
+    if (error) throw new Error(error.message);
+    return (data || []).map(normalize);
   },
 
   async findOne(filter = {}) {
-    if (getDbMode() === 'mongodb') {
-      return await MongooseCourse.findOne(filter);
-    }
-    const collection = getCollection('courses');
-    return await collection.findOne(filter);
+    let query = supabase.from('courses').select('*');
+    if (filter.id) query = query.eq('id', filter.id);
+    if (filter.title) query = query.eq('title', filter.title);
+
+    const { data, error } = await query.maybeSingle();
+    if (error) throw new Error(error.message);
+    return normalize(data);
   },
 
   async findById(id) {
-    if (getDbMode() === 'mongodb') {
-      return await MongooseCourse.findById(id);
-    }
-    const collection = getCollection('courses');
-    return await collection.findById(id);
+    const { data, error } = await supabase
+      .from('courses')
+      .select('*')
+      .eq('id', id)
+      .maybeSingle();
+
+    if (error) throw new Error(error.message);
+    return normalize(data);
   },
 
-  async findByIdAndUpdate(id, update, options) {
-    if (getDbMode() === 'mongodb') {
-      return await MongooseCourse.findByIdAndUpdate(id, update, options);
+  async findByIdAndUpdate(id, update, _options) {
+    const raw = update.$set || update;
+    const mapped = {};
+    const fieldMap = {
+      title: 'title', description: 'description', category: 'category',
+      price: 'price', difficulty: 'difficulty', tags: 'tags',
+      rating: 'rating', syllabus: 'syllabus', features: 'features',
+      thumbnailUrl: 'thumbnail_url', contentUrl: 'content_url',
+      teacherName: 'teacher_name', teacherId: 'teacher_id',
+      numReviews: 'num_reviews', studentsEnrolled: 'students_enrolled',
+      durationHours: 'duration_hours', lessonsCount: 'lessons_count',
+      // Allow direct snake_case updates too
+      num_reviews: 'num_reviews', students_enrolled: 'students_enrolled'
+    };
+    for (const [key, val] of Object.entries(raw)) {
+      const col = fieldMap[key] || key;
+      mapped[col] = val;
     }
-    const collection = getCollection('courses');
-    return await collection.findByIdAndUpdate(id, update, options);
+
+    const { data, error } = await supabase
+      .from('courses')
+      .update(mapped)
+      .eq('id', id)
+      .select()
+      .single();
+
+    if (error) throw new Error(error.message);
+    return normalize(data);
   },
 
   async findByIdAndDelete(id) {
-    if (getDbMode() === 'mongodb') {
-      return await MongooseCourse.findByIdAndDelete(id);
-    }
-    const collection = getCollection('courses');
-    return await collection.findByIdAndDelete(id);
+    const { data, error } = await supabase
+      .from('courses')
+      .delete()
+      .eq('id', id)
+      .select()
+      .single();
+
+    if (error) throw new Error(error.message);
+    return normalize(data);
   },
 
   async countDocuments(filter = {}) {
-    if (getDbMode() === 'mongodb') {
-      return await MongooseCourse.countDocuments(filter);
+    let query = supabase.from('courses').select('id', { count: 'exact', head: true });
+    if (filter.teacher_id || filter.teacherId) {
+      query = query.eq('teacher_id', filter.teacher_id || filter.teacherId);
     }
-    return await getCollection('courses').countDocuments(filter);
+    const { count, error } = await query;
+    if (error) throw new Error(error.message);
+    return count || 0;
   }
 };
+
+// ----------------------------------------------------------------
+// Local JSON Fallback
+// ----------------------------------------------------------------
+const LocalCourse = {
+  async create(d)                  { return getCollection('courses').create(d); },
+  async find(f = {})               { return getCollection('courses').find(f); },
+  async findOne(f = {})            { return getCollection('courses').findOne(f); },
+  async findById(id)               { return getCollection('courses').findById(id); },
+  async findByIdAndUpdate(id,u,o)  { return getCollection('courses').findByIdAndUpdate(id,u,o); },
+  async findByIdAndDelete(id)      { return getCollection('courses').findByIdAndDelete(id); },
+  async countDocuments(f = {})     { return getCollection('courses').countDocuments(f); }
+};
+
+// ----------------------------------------------------------------
+// Universal Adapter
+// ----------------------------------------------------------------
+const Course = new Proxy({}, {
+  get(_target, prop) {
+    const impl = getDbMode() === 'supabase' ? SupabaseCourse : LocalCourse;
+    return impl[prop];
+  }
+});
 
 module.exports = Course;

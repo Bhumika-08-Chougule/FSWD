@@ -1,0 +1,30 @@
+{
+  "name": "vidyasetu",
+  "version": "1.0.0",
+  "description": "VidyaSetu - Full-Stack Production-Ready Edu-Commerce Web Application with AI Course Recommendations",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "seed": "node config/seedData.js"
+  },
+  "keywords": [
+    "education",
+    "ecommerce",
+    "tensorflowjs",
+    "chartjs",
+    "mvc",
+    "express",
+    "mongodb"
+  ],
+  "author": "VidyaSetu Team",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.3.2"
+  }
+}

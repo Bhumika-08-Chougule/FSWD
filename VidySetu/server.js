@@ -46,6 +46,7 @@ app.get('/api/health', (req, res) => {
     status: 'online',
     appName: 'SmartEdu',
     version: '1.0.0',
+    database: process.env.SUPABASE_URL ? 'Supabase (PostgreSQL)' : 'Local JSON Store',
     timestamp: new Date().toISOString()
   });
 });
@@ -65,24 +66,27 @@ const PORT = process.env.PORT || 5000;
 
 const startServer = async () => {
   try {
-    // 1. Connect to Database (MongoDB or fallback to local persistent store)
-    await connectDB();
+    // 1. Connect to Supabase (or fallback to local persistent store)
+    const dbMode = await connectDB();
 
     // 2. Auto-seed if courses collection is empty
     const count = await Course.countDocuments();
     if (count === 0) {
       console.log('[SmartEdu] Fresh database detected. Auto-seeding initial curriculum & accounts...');
       await seedData();
+    } else {
+      console.log(`[SmartEdu] Database ready — ${count} course(s) found.`);
     }
 
     // 3. Start listening
     const server = app.listen(PORT, () => {
       console.log(`
 ============================================================
-🎓 SmartEdu Web Application is Live!
-💻 Server URL: http://localhost:${PORT}
-🧠 AI Engine: TensorFlow.js Active on Client
-📊 Analytics: Chart.js Engine Loaded
+🎓  SmartEdu Web Application is Live!
+💻  Server URL  : http://localhost:${PORT}
+🗄️   Database    : ${dbMode === 'supabase' ? '✅ Supabase (PostgreSQL)' : '📁 Local JSON Fallback'}
+🧠  AI Engine   : TensorFlow.js Active on Client
+📊  Analytics   : Chart.js Engine Loaded
 ============================================================
       `);
     });
