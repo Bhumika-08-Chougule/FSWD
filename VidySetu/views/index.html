@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SmartEdu - AI-Powered Edu-Commerce Platform & E-Learning</title>
+  <meta name="description" content="Production-ready Edu-Commerce platform featuring AI-based course recommendations, role-based dashboards, and interactive learning journeys." />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/navbar.css" />
+  <link rel="stylesheet" href="/css/cards.css" />
+  <link rel="stylesheet" href="/css/modal.css" />
+  <link rel="stylesheet" href="/css/dashboard.css" />
+
+  <!-- External Libraries: Chart.js & TensorFlow.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.17.0/dist/tf.min.js"></script>
+</head>
+<body>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container"></div>
+
+  <!-- =========================================================================
+       HEADER & NAVIGATION
+       ========================================================================= -->
+  <header class="site-header">
+    <div class="container navbar">
+      <!-- Brand Logo -->
+      <a href="/" class="brand-logo" id="logo-link">
+        <div class="brand-icon">🎓</div>
+        <div>Smart<span class="highlight">Edu</span></div>
+      </a>
+
+      <!-- Navigation Menu with Semantic Anchors -->
+      <nav>
+        <ul class="nav-menu" id="nav-menu-main">
+          <li>
+            <a href="#catalog" class="nav-link active" id="nav-courses">
+              <span class="nav-icon">💻</span>
+              <span>Courses</span>
+            </a>
+          </li>
+          <li>
+            <a href="#ai-recommendations" class="nav-link" id="nav-ai-recs">
+              <span class="nav-icon">🧠</span>
+              <span>AI Recommender</span>
+            </a>
+          </li>
+          <li>
+            <a href="#dashboard" class="nav-link" id="nav-dashboard">
+              <span class="nav-icon">📊</span>
+              <span>Dashboard</span>
+            </a>
+          </li>
+          <li>
+            <a href="#certifications" class="nav-link" id="nav-certifications">
+              <span class="nav-icon">🎓</span>
+              <span>Certifications</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Nav Search -->
+      <div class="nav-search">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="nav-search-input" placeholder="Search courses, skills..." />
+      </div>
+
+      <!-- Nav Actions (Cart & User) -->
+      <div class="nav-actions">
+        <!-- Shopping Cart Trigger Button -->
+        <button class="cart-btn" id="cart-toggle-btn" aria-label="View Shopping Cart">
+          🛒
+          <span class="cart-badge" id="cart-badge" style="display:none;">0</span>
+        </button>
+
+        <!-- Guest Actions (Login & Signup) -->
+        <div id="nav-guest-actions" style="display:flex; gap:0.5rem;">
+          <button class="btn btn-secondary btn-sm" id="login-nav-btn">Sign In</button>
+          <button class="btn btn-primary btn-sm" id="signup-nav-btn">Get Started</button>
+        </div>
+
+        <!-- User Profile Dropdown (Active Session) -->
+        <div class="user-menu-wrapper" id="nav-user-actions" style="display:none;">
+          <button class="user-btn" id="user-menu-btn">
+            <img src="" id="user-nav-avatar" class="user-avatar" alt="User Avatar" />
+            <div class="user-meta">
+              <span class="user-name" id="user-nav-name">Student</span>
+              <span class="user-role-badge" id="user-nav-role">Student</span>
+            </div>
+            <span style="font-size:0.75rem; color:var(--slate-400);">▾</span>
+          </button>
+          <div class="user-dropdown" id="user-menu-dropdown">
+            <a href="#dashboard" class="dropdown-item">📊 My Dashboard</a>
+            <a href="#dashboard" class="dropdown-item teacher-only-link" style="display:none;">👨‍🏫 Instructor Studio</a>
+            <a href="#certifications" class="dropdown-item">🎓 My Certificates</a>
+            <a href="#" class="dropdown-item logout" id="nav-logout-btn">🚪 Sign Out</a>
+          </div>
+        </div>
+
+        <!-- Mobile Nav Toggle -->
+        <button class="mobile-nav-toggle" id="mobile-nav-toggle" aria-label="Toggle menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- =========================================================================
+       HERO SECTION
+       ========================================================================= -->
+  <section class="hero-section" style="padding: 5rem 0 3.5rem; text-align: center; position: relative;">
+    <div class="container">
+      <div style="display:inline-flex; align-items:center; gap:0.6rem; margin-bottom:1.25rem;">
+        <span class="semantic-badge">🧠 Powered by TensorFlow.js AI</span>
+        <span class="semantic-badge blue">💻 100% Project-Based Learning</span>
+      </div>
+
+      <h1 style="font-family:var(--font-display); font-size:clamp(2.4rem, 5vw, 3.8rem); font-weight:800; line-height:1.15; max-width:850px; margin:0 auto 1.25rem; color:var(--white);">
+        Master High-Growth Tech with <br />
+        <span style="background:linear-gradient(135deg, var(--emerald-400), var(--blue-400)); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">
+          Intelligent AI Course Guidance
+        </span>
+      </h1>
+
+      <p style="color:var(--slate-300); font-size:1.15rem; max-width:680px; margin:0 auto 2.25rem;">
+        Next-generation e-learning platform with client-side tensor neural recommendation filtering, dynamic role analytics, verified certificates, and industry-grade curriculum.
+      </p>
+
+      <!-- Instant Search Input -->
+      <div style="max-width:580px; margin:0 auto 2.5rem; position:relative;">
+        <input 
+          type="text" 
+          id="hero-search-input" 
+          placeholder="Search Full Stack, Python, Deep Learning, Cloud..." 
+          style="width:100%; padding:1rem 3rem 1rem 3.2rem; background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.15); border-radius:var(--radius-full); color:white; font-size:1rem; outline:none; box-shadow:var(--shadow-xl); backdrop-filter:blur(10px);"
+        />
+        <span style="position:absolute; left:1.25rem; top:50%; transform:translateY(-50%); font-size:1.2rem; color:var(--slate-400); pointer-events:none;">🔍</span>
+        <button id="hero-search-clear" class="search-clear-btn" style="display:none;" title="Clear search">✕</button>
+      </div>
+
+      <!-- Platform Stat Anchors -->
+      <div style="display:flex; justify-content:center; gap:2.5rem; flex-wrap:wrap; color:var(--slate-400); font-size:0.9rem;">
+        <div><strong style="color:var(--white); font-size:1.1rem; display:block;">150+</strong> 💻 Verified Courses</div>
+        <div><strong style="color:var(--white); font-size:1.1rem; display:block;">98.4%</strong> 🧠 AI Recommendation Match</div>
+        <div><strong style="color:var(--white); font-size:1.1rem; display:block;">45,000+</strong> 🎓 Certificates Issued</div>
+        <div><strong style="color:var(--white); font-size:1.1rem; display:block;">4.9/5.0</strong> ⭐ Average Rating</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       AI COURSE RECOMMENDATION CONTAINER (TensorFlow.js)
+       ========================================================================= -->
+  <section id="ai-recommendations" style="padding: 2.5rem 0 4rem;">
+    <div class="container">
+      <div class="ai-engine-banner">
+        <div class="ai-banner-content">
+          <div class="semantic-badge blue" style="margin-bottom:0.75rem;">
+            <span>🧠</span> Client-Side Vector Cosine Similarity
+          </div>
+          <h3><span>🧠</span> SmartEdu AI Course Matcher</h3>
+          <p>
+            Our in-browser TensorFlow.js neural engine computes normalized feature vectors from your tags, difficulty preferences, and enrolled topics to deliver real-time recommendations without privacy tracking.
+          </p>
+          <div class="ai-metrics-pills">
+            <div class="ai-metric-item">⚡ <strong>TensorFlow.js v4.17</strong> Active</div>
+            <div class="ai-metric-item">🎯 <strong>Content-Based Cosine</strong> Similarity</div>
+            <div class="ai-metric-item">🔒 <strong>100% On-Device</strong> Private AI</div>
+          </div>
+        </div>
+        <div>
+          <button class="btn btn-accent btn-lg" onclick="AIRecommender.runRecommendations()">
+            🔄 Recalculate AI Picks
+          </button>
+        </div>
+      </div>
+
+      <!-- AI Recommendations Cards Grid -->
+      <div id="ai-recommendations-section">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem;">
+          <h3 style="font-family:var(--font-display); font-size:1.5rem; color:var(--white); display:flex; align-items:center; gap:0.5rem;">
+            <span>✨</span> Recommended For You
+          </h3>
+          <span class="semantic-badge" style="font-size:0.75rem;">Dynamic AI Feed</span>
+        </div>
+        <div class="course-grid" id="ai-recommended-grid">
+          <!-- Dynamically populated by ai-recommender.js -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       ONLINE COURSE CATALOG (Search, Category Pills, Difficulty & Sorting)
+       ========================================================================= -->
+  <section id="catalog" class="container" style="padding: 2rem 1.5rem 5rem;">
+    <div class="section-header">
+      <span class="sub-title">💻 Explore Curriculum</span>
+      <h2>Industry-Ready Course Catalog</h2>
+      <p>Master practical skills with production projects guided by top engineering mentors.</p>
+    </div>
+
+    <!-- Catalog Controls Bar -->
+    <div class="catalog-controls">
+      <div class="controls-row-top">
+        <!-- Live Search -->
+        <div class="search-wrapper">
+          <span class="search-wrapper-icon">🔍</span>
+          <input 
+            type="text" 
+            id="catalog-search-input" 
+            class="search-input-main" 
+            placeholder="Search by topic, instructor, or tag (e.g. React, Python, Cloud)..." 
+          />
+          <button id="catalog-search-clear" class="search-clear-btn" style="display:none;" title="Clear search">✕</button>
+        </div>
+
+        <!-- Filter Dropdowns -->
+        <div class="filter-group">
+          <label style="font-size:0.85rem; color:var(--slate-400);">Difficulty:</label>
+          <select id="catalog-difficulty-select" class="custom-select">
+            <option value="All">All Levels</option>
+            <option value="Beginner">Beginner</option>
+            <option value="Intermediate">Intermediate</option>
+            <option value="Advanced">Advanced</option>
+          </select>
+
+          <label style="font-size:0.85rem; color:var(--slate-400); margin-left:0.5rem;">Sort By:</label>
+          <select id="catalog-sort-select" class="custom-select">
+            <option value="newest">Newest First</option>
+            <option value="popular">Most Popular</option>
+            <option value="rating">Highest Rated ⭐</option>
+            <option value="price-low">Price: Low to High</option>
+            <option value="price-high">Price: High to Low</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Category Filter Pills -->
+      <div class="category-pills" id="category-pills-list">
+        <!-- Injected by catalog.js -->
+      </div>
+
+      <!-- Active Search Status & Clear Bar -->
+      <div id="active-search-indicator" style="display:none; margin-top:0.75rem; padding-top:0.75rem; border-top:1px dashed var(--card-border); align-items:center; justify-content:space-between; flex-wrap:wrap; gap:0.5rem;"></div>
+    </div>
+
+    <!-- Course Cards Grid -->
+    <div class="course-grid" id="course-catalog-grid">
+      <!-- Injected by catalog.js -->
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       ANALYTICS & DASHBOARDS (Student View & Teacher View)
+       ========================================================================= -->
+  <section id="dashboard" style="background:var(--slate-900); padding: 4rem 0; border-top:1px solid var(--card-border); border-bottom:1px solid var(--card-border);">
+    <div class="container">
+      <div class="dashboard-hero-content" style="margin-bottom:2.5rem;">
+        <div class="user-welcome">
+          <div class="semantic-badge" style="margin-bottom:0.5rem;">📊 Dynamic Performance Engine</div>
+          <h1>Analytics & Learning Studio</h1>
+          <p>Real-time analytics powered by Chart.js, enrollment insights, and progress trackers.</p>
+        </div>
+
+        <!-- Role Toggle (Student View vs Teacher View) -->
+        <div class="dashboard-role-toggle">
+          <button class="role-tab-btn active" id="role-tab-student">
+            <span>👨‍🎓</span> Student Dashboard
+          </button>
+          <button class="role-tab-btn" id="role-tab-teacher">
+            <span>👨‍🏫</span> Teacher Studio
+          </button>
+        </div>
+      </div>
+
+      <!-- -------------------------------------------------------------
+           STUDENT DASHBOARD CONTENT
+           ------------------------------------------------------------- -->
+      <div id="student-dashboard-content">
+        <!-- Student Metrics -->
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-icon-box">⏱️</div>
+            <div class="metric-info">
+              <span class="metric-label">Hours Spent Learning</span>
+              <span class="metric-value" id="metric-student-hours">18.5h</span>
+              <span class="metric-sub">↑ 4.2h this week</span>
+            </div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-icon-box blue">💻</div>
+            <div class="metric-info">
+              <span class="metric-label">Enrolled Courses</span>
+              <span class="metric-value" id="metric-student-enrolled">3</span>
+              <span class="metric-sub">Active journey</span>
+            </div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-icon-box purple">🎓</div>
+            <div class="metric-info">
+              <span class="metric-label">Certifications Earned</span>
+              <span class="metric-value" id="metric-student-certs">1</span>
+              <span class="metric-sub">Verified credentials</span>
+            </div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-icon-box amber">🔥</div>
+            <div class="metric-info">
+              <span class="metric-label">Daily Streak</span>
+              <span class="metric-value">6 Days</span>
+              <span class="metric-sub">Consistent learner</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Student Chart.js Grid -->
+        <div class="charts-grid">
+          <!-- Doughnut Progress Wheel -->
+          <div class="chart-card">
+            <div class="chart-header">
+              <h3><span>📊</span> Course Completion Wheel</h3>
+              <span class="semantic-badge" style="font-size:0.75rem;">Chart.js Doughnut</span>
+            </div>
+            <div class="chart-container-box">
+              <canvas id="studentProgressDonut"></canvas>
+            </div>
+          </div>
+
+          <!-- Weekly Hours Bar Chart -->
+          <div class="chart-card">
+            <div class="chart-header">
+              <h3><span>⏱️</span> Weekly Learning Hours</h3>
+              <span class="semantic-badge blue" style="font-size:0.75rem;">Chart.js Bar Chart</span>
+            </div>
+            <div class="chart-container-box">
+              <canvas id="studentWeeklyBarChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Enrolled Courses Progress Cards -->
+        <div class="enrolled-courses-section">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem;">
+            <h3 style="font-family:var(--font-display); font-size:1.35rem; color:var(--white);">
+              My Enrolled Courses & Progress
+            </h3>
+            <span class="semantic-badge" style="font-size:0.75rem;">Active Classes</span>
+          </div>
+          <div class="enrolled-grid" id="student-enrolled-grid">
+            <!-- Injected by dashboard.js -->
+          </div>
+        </div>
+      </div>
+
+      <!-- -------------------------------------------------------------
+           TEACHER STUDIO CONTENT
+           ------------------------------------------------------------- -->
+      <div id="teacher-dashboard-content" style="display:none;">
+        <!-- Teacher Metrics -->
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-icon-box">💰</div>
+            <div class="metric-info">
+              <span class="metric-label">Total Revenue</span>
+              <span class="metric-value" id="metric-teacher-revenue">$28,450</span>
+              <span class="metric-sub">↑ 18.5% this month</span>
+            </div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-icon-box blue">👥</div>
+            <div class="metric-info">
+              <span class="metric-label">Total Students Enrolled</span>
+              <span class="metric-value" id="metric-teacher-students">4,120</span>
+              <span class="metric-sub">Across all courses</span>
+            </div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-icon-box purple">💻</div>
+            <div class="metric-info">
+              <span class="metric-label">Published Courses</span>
+              <span class="metric-value" id="metric-teacher-courses">4</span>
+              <span class="metric-sub">Active in marketplace</span>
+            </div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-icon-box amber">⭐</div>
+            <div class="metric-info">
+              <span class="metric-label">Instructor Rating</span>
+              <span class="metric-value" id="metric-teacher-rating">⭐ 4.9</span>
+              <span class="metric-sub">Top Tier Educator</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Teacher Chart.js Grid -->
+        <div class="charts-grid">
+          <div class="chart-card">
+            <div class="chart-header">
+              <h3><span>📈</span> 6-Month Revenue Growth</h3>
+              <span class="semantic-badge" style="font-size:0.75rem;">Chart.js Line Chart</span>
+            </div>
+            <div class="chart-container-box">
+              <canvas id="teacherRevenueChart"></canvas>
+            </div>
+          </div>
+
+          <div class="chart-card">
+            <div class="chart-header">
+              <h3><span>📊</span> Student Enrollments per Course</h3>
+              <span class="semantic-badge blue" style="font-size:0.75rem;">Chart.js Horizontal Bar</span>
+            </div>
+            <div class="chart-container-box">
+              <canvas id="teacherEnrollmentChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Teacher Course CRUD Table -->
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem;">
+          <div>
+            <h3 style="font-family:var(--font-display); font-size:1.35rem; color:var(--white);">
+              Manage Uploaded Courses
+            </h3>
+            <p style="font-size:0.85rem; color:var(--slate-400);">Create, update, or delete your educational offerings.</p>
+          </div>
+          <button class="btn btn-primary" id="btn-open-create-course">
+            ➕ Upload New Course
+          </button>
+        </div>
+
+        <div class="teacher-courses-table-wrap">
+          <table class="crud-table">
+            <thead>
+              <tr>
+                <th>Course Info</th>
+                <th>Price</th>
+                <th>Enrolled</th>
+                <th>Rating</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="teacher-courses-table-body">
+              <!-- Injected by dashboard.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       ACADEMIC CERTIFICATIONS & DEGREE SECTION
+       ========================================================================= -->
+  <section id="certifications" class="container" style="padding: 5rem 1.5rem;">
+    <div class="section-header">
+      <span class="sub-title">🎓 Credential Center</span>
+      <h2>Industry Recognized Certifications</h2>
+      <p>Demonstrate your mastery with cryptographically verifiable certificates of completion.</p>
+    </div>
+
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:2rem;">
+      <div class="glass-card">
+        <div style="font-size:2.5rem; margin-bottom:1rem;">📜</div>
+        <h3 style="font-family:var(--font-display); font-size:1.25rem; color:white; margin-bottom:0.5rem;">
+          Verified Digital Badges
+        </h3>
+        <p style="color:var(--slate-400); font-size:0.9rem; line-height:1.6; margin-bottom:1.5rem;">
+          Every completed course grants an authentic SmartEdu digital diploma complete with a unique verification token recognized by technology employers.
+        </p>
+        <button class="btn btn-secondary btn-sm" onclick="Dashboard.openCertificateModal('Full Stack MERN Architecture')">
+          Preview Sample Certificate
+        </button>
+      </div>
+
+      <div class="glass-card">
+        <div style="font-size:2.5rem; margin-bottom:1rem;">💼</div>
+        <h3 style="font-family:var(--font-display); font-size:1.25rem; color:white; margin-bottom:0.5rem;">
+          LinkedIn & Resume Integration
+        </h3>
+        <p style="color:var(--slate-400); font-size:0.9rem; line-height:1.6; margin-bottom:1.5rem;">
+          Easily publish your credentials to your professional profile with one click to showcase hands-on capstone project accomplishments.
+        </p>
+        <button class="btn btn-secondary btn-sm" onclick="showToast('Credential Link', 'Certificate credentials ready for export', 'info')">
+          View Verification API
+        </button>
+      </div>
+
+      <div class="glass-card">
+        <div style="font-size:2.5rem; margin-bottom:1rem;">🏆</div>
+        <h3 style="font-family:var(--font-display); font-size:1.25rem; color:white; margin-bottom:0.5rem;">
+          Continuous Skill Progression
+        </h3>
+        <p style="color:var(--slate-400); font-size:0.9rem; line-height:1.6; margin-bottom:1.5rem;">
+          Advance from Beginner to Expert levels and unlock advanced Masterclasses recommended by our TensorFlow recommendation engine.
+        </p>
+        <button class="btn btn-primary btn-sm" onclick="window.location.href='#catalog'">
+          Explore Tracks
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       FOOTER
+       ========================================================================= -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3><span style="color:var(--emerald-400);">🎓</span> SmartEdu</h3>
+          <p>
+            The production-ready Edu-Commerce platform integrating modern web architectures, Express MVC, TensorFlow.js neural recommendations, and interactive learning analytics.
+          </p>
+          <div style="display:flex; gap:0.75rem;">
+            <span class="semantic-badge" style="font-size:0.75rem;">Node.js</span>
+            <span class="semantic-badge blue" style="font-size:0.75rem;">Express</span>
+            <span class="semantic-badge purple" style="font-size:0.75rem;">MongoDB</span>
+            <span class="semantic-badge amber" style="font-size:0.75rem;">Chart.js</span>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h4>Navigation</h4>
+          <ul>
+            <li><a href="#catalog">💻 Course Catalog</a></li>
+            <li><a href="#ai-recommendations">🧠 AI Recommender</a></li>
+            <li><a href="#dashboard">📊 Performance Dashboard</a></li>
+            <li><a href="#certifications">🎓 Certifications</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Platform Roles</h4>
+          <ul>
+            <li><a href="#" onclick="Auth.openModal('login'); return false;">👨‍🎓 Student Portal</a></li>
+            <li><a href="#" onclick="Auth.openModal('login'); return false;">👨‍🏫 Teacher Studio</a></li>
+            <li><a href="#" onclick="Auth.loginWithCredentials('student@smartedu.dev', 'student123'); return false;">Student Demo</a></li>
+            <li><a href="#" onclick="Auth.loginWithCredentials('teacher@smartedu.dev', 'teacher123'); return false;">Teacher Demo</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Quick Tech Stack</h4>
+          <p style="color:var(--slate-400); font-size:0.85rem; line-height:1.6;">
+            Modular MVC Monolithic Architecture. Built with Express, MongoDB/Mongoose, Chart.js, TensorFlow.js, Vanilla CSS3 & JS.
+          </p>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>© 2026 SmartEdu Inc. All rights reserved.</div>
+        <div>Built for Full Stack Web Development Excellence.</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- =========================================================================
+       SLIDE-OVER SHOPPING CART DRAWER
+       ========================================================================= -->
+  <div class="cart-drawer-overlay" id="cart-drawer-overlay"></div>
+  <aside class="cart-drawer" id="cart-drawer" aria-label="Shopping Cart Drawer">
+    <div class="cart-header">
+      <h3><span>🛒</span> Your Shopping Cart</h3>
+      <button class="cart-close-btn" id="cart-close-btn">&times;</button>
+    </div>
+
+    <div class="cart-body">
+      <!-- Empty State -->
+      <div class="cart-empty" id="cart-empty-state">
+        <div class="cart-empty-icon">🛒</div>
+        <h4 style="color:white; margin-bottom:0.5rem;">Your cart is empty</h4>
+        <p style="font-size:0.85rem; color:var(--slate-400); margin-bottom:1rem;">
+          Explore our AI-recommended courses to kickstart your tech journey!
+        </p>
+        <button class="btn btn-primary btn-sm" onclick="Cart.closeDrawer(); window.location.href='#catalog';">
+          Browse Courses
+        </button>
+      </div>
+
+      <!-- Items List -->
+      <div id="cart-items-list" style="display:flex; flex-direction:column; gap:0.85rem;"></div>
+    </div>
+
+    <!-- Coupon & Summary Footer -->
+    <div class="cart-footer" id="cart-footer-summary" style="display:none;">
+      <div style="display:flex; gap:0.5rem; margin-bottom:1rem;">
+        <input 
+          type="text" 
+          id="coupon-input" 
+          placeholder="Promo code (Try SMART20)" 
+          style="flex:1; padding:0.6rem 0.85rem; background:rgba(255,255,255,0.05); border:1px solid var(--card-border); border-radius:var(--radius-sm); color:white; font-size:0.85rem; outline:none;" 
+        />
+        <button class="btn btn-secondary btn-sm" id="apply-coupon-btn">Apply</button>
+      </div>
+
+      <div class="cart-summary-row">
+        <span>Subtotal</span>
+        <span id="cart-subtotal-val">$0.00</span>
+      </div>
+      <div class="cart-summary-row" style="color:var(--emerald-400);">
+        <span>Discount</span>
+        <span id="cart-discount-val">-$0.00</span>
+      </div>
+      <div class="cart-summary-row total">
+        <span>Total Due</span>
+        <span class="price" id="cart-total-val">$0.00</span>
+      </div>
+
+      <button class="btn btn-primary btn-lg" id="cart-checkout-btn" style="width:100%;">
+        ⚡ Proceed to Demo Checkout
+      </button>
+    </div>
+  </aside>
+
+  <!-- =========================================================================
+       MODAL: AUTHENTICATION (Login, Signup & Demo Logins)
+       ========================================================================= -->
+  <div class="modal-backdrop" id="auth-modal-backdrop">
+    <div class="modal-card">
+      <button class="modal-close-btn" id="auth-modal-close">&times;</button>
+      
+      <div class="modal-header">
+        <h3 id="auth-modal-title">Welcome to SmartEdu</h3>
+        <p>Sign in to access your dashboard, courses, and AI recommendations.</p>
+      </div>
+
+      <div class="modal-body">
+        <!-- Auth Tabs -->
+        <div class="auth-tabs">
+          <button class="auth-tab active" id="tab-btn-login">Sign In</button>
+          <button class="auth-tab" id="tab-btn-register">Create Account</button>
+        </div>
+
+        <!-- Quick 1-Click Demo Buttons -->
+        <div class="demo-logins-box">
+          <div class="demo-logins-title">⚡ Instant Demo One-Click Access</div>
+          <div class="demo-buttons-row">
+            <button class="btn-demo" id="btn-demo-student">
+              <span>👨‍🎓</span> Demo Student
+            </button>
+            <button class="btn-demo" id="btn-demo-teacher">
+              <span>👨‍🏫</span> Demo Teacher
+            </button>
+          </div>
+        </div>
+
+        <!-- Login View -->
+        <div id="auth-login-view">
+          <form id="login-form">
+            <div class="form-group">
+              <label class="form-label">Email Address</label>
+              <input type="email" id="login-email" class="form-input" placeholder="e.g. student@smartedu.dev" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Password</label>
+              <input type="password" id="login-password" class="form-input" placeholder="••••••••" required />
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg" style="width:100%; margin-top:0.5rem;">
+              Sign In to Account
+            </button>
+          </form>
+        </div>
+
+        <!-- Register View -->
+        <div id="auth-register-view" style="display:none;">
+          <form id="register-form">
+            <div class="form-group">
+              <label class="form-label">Select Account Type</label>
+              <div class="role-selector">
+                <div class="role-option selected" data-role="student">
+                  <div class="role-icon">👨‍🎓</div>
+                  <div class="role-name">Student</div>
+                  <div class="role-desc">Browse, buy & earn certificates</div>
+                </div>
+                <div class="role-option" data-role="teacher">
+                  <div class="role-icon">👨‍🏫</div>
+                  <div class="role-name">Teacher</div>
+                  <div class="role-desc">Create courses & track revenue</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Full Name</label>
+              <input type="text" id="register-name" class="form-input" placeholder="e.g. Alex Morgan" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email Address</label>
+              <input type="email" id="register-email" class="form-input" placeholder="e.g. alex@example.com" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Password</label>
+              <input type="password" id="register-password" class="form-input" placeholder="Choose a secure password" required />
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg" style="width:100%; margin-top:0.5rem;">
+              Create Free Account
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       MODAL: COURSE DETAILS & SYLLABUS PREVIEW
+       ========================================================================= -->
+  <div class="modal-backdrop" id="course-detail-backdrop">
+    <div class="modal-card modal-xl">
+      <button class="modal-close-btn" id="course-detail-close">&times;</button>
+      <div class="modal-body" id="course-detail-modal-body" style="padding:2.5rem;">
+        <!-- Injected by catalog.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       MODAL: DEMO CHECKOUT (Razorpay / Stripe Gateway Simulation)
+       ========================================================================= -->
+  <div class="modal-backdrop" id="checkout-modal-backdrop">
+    <div class="modal-card modal-lg">
+      <button class="modal-close-btn" id="checkout-modal-close">&times;</button>
+      
+      <!-- Processing Overlay -->
+      <div id="checkout-processing" style="display:none; position:absolute; inset:0; background:rgba(7,10,18,0.92); z-index:20; flex-direction:column; align-items:center; justify-content:center; gap:1rem; border-radius:var(--radius-xl);">
+        <div style="font-size:3rem; animation:spin 1s linear infinite;">⏳</div>
+        <h3 style="color:white; font-family:var(--font-display);">Processing Secure Payment...</h3>
+        <p style="color:var(--slate-400); font-size:0.9rem;">Connecting to simulated banking gateway</p>
+      </div>
+
+      <div class="modal-header">
+        <div class="semantic-badge" style="margin-bottom:0.4rem;">🔒 256-Bit SSL Demo Gateway</div>
+        <h3>Secure Demo Checkout</h3>
+        <p>Razorpay & Stripe style transaction processing with instant fulfillment.</p>
+      </div>
+
+      <div class="modal-body">
+        <!-- Order Items Summary Box -->
+        <div style="background:rgba(255,255,255,0.03); border:1px solid var(--card-border); border-radius:var(--radius-md); padding:1rem; margin-bottom:1.5rem;">
+          <div style="font-size:0.75rem; font-weight:700; text-transform:uppercase; color:var(--slate-400); margin-bottom:0.5rem;">Order Summary</div>
+          <div id="checkout-items-summary"></div>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:0.75rem; padding-top:0.75rem; border-top:1px dashed var(--card-border);">
+            <strong style="color:white; font-size:1rem;">Total Due:</strong>
+            <strong style="color:var(--emerald-400); font-size:1.35rem; font-family:var(--font-display);" id="checkout-amount-display">$0.00</strong>
+          </div>
+        </div>
+
+        <!-- Payment Method Tabs -->
+        <label class="form-label">Select Payment Method</label>
+        <div class="payment-options-grid">
+          <div class="payment-method-card selected" data-method="card">
+            <span class="method-icon">💳</span>
+            <span class="method-title">Credit / Debit Card</span>
+          </div>
+          <div class="payment-method-card" data-method="upi">
+            <span class="method-icon">📱</span>
+            <span class="method-title">UPI / QR Code</span>
+          </div>
+          <div class="payment-method-card" data-method="netbanking">
+            <span class="method-icon">🏦</span>
+            <span class="method-title">Net Banking</span>
+          </div>
+        </div>
+
+        <!-- Payment Fields: Card -->
+        <div id="pay-fields-card">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
+            <label class="form-label" style="margin-bottom:0;">Card Details</label>
+            <button type="button" class="btn btn-secondary btn-sm" id="btn-autofill-card" style="font-size:0.75rem; padding:0.2rem 0.6rem;">
+              ⚡ Autofill Test Card
+            </button>
+          </div>
+          <div class="form-group">
+            <input type="text" id="input-card-number" class="form-input" placeholder="4242 •••• •••• 4242" />
+          </div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.75rem;">
+            <div class="form-group">
+              <label class="form-label">Expiry (MM/YY)</label>
+              <input type="text" id="input-card-expiry" class="form-input" placeholder="12/28" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">CVV</label>
+              <input type="password" id="input-card-cvv" class="form-input" placeholder="888" maxlength="4" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Cardholder Name</label>
+            <input type="text" id="input-card-name" class="form-input" placeholder="Alex Morgan" />
+          </div>
+        </div>
+
+        <!-- Payment Fields: UPI -->
+        <div id="pay-fields-upi" style="display:none; text-align:center; padding:1.5rem 0;">
+          <div style="width:140px; height:140px; background:white; margin:0 auto 1rem; border-radius:12px; display:flex; align-items:center; justify-content:center; color:#0f172a; font-size:4rem; box-shadow:0 4px 15px rgba(0,0,0,0.3);">
+            📱
+          </div>
+          <p style="color:var(--slate-300); font-size:0.9rem; margin-bottom:0.75rem;">
+            Scan QR code with GPay, PhonePe, Paytm, or enter your VPA:
+          </p>
+          <input type="text" class="form-input" placeholder="username@okhdfcbank" style="max-width:320px; margin:0 auto;" />
+        </div>
+
+        <!-- Payment Fields: NetBanking -->
+        <div id="pay-fields-netbanking" style="display:none;">
+          <div class="form-group">
+            <label class="form-label">Select Your Bank</label>
+            <select class="custom-select" style="width:100%;">
+              <option>HDFC Bank Demo</option>
+              <option>ICICI Bank Demo</option>
+              <option>State Bank of India</option>
+              <option>Axis Bank Demo</option>
+              <option>Chase / Bank of America</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Simulate Failure Toggle (as requested in functional requirements) -->
+        <div class="checkout-simulation-toggle">
+          <div>
+            <strong>⚠️ Simulate Payment Decline / Failure:</strong>
+            <div style="font-size:0.75rem; opacity:0.85;">Test how the application gracefully handles simulated bank declines</div>
+          </div>
+          <input type="checkbox" id="checkout-fail-toggle" style="width:18px; height:18px; cursor:pointer;" />
+        </div>
+
+        <button class="btn btn-primary btn-lg" id="btn-confirm-pay" style="width:100%;">
+          🔒 Authorize & Complete Demo Purchase
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       MODAL: TEACHER CREATE / EDIT COURSE
+       ========================================================================= -->
+  <div class="modal-backdrop" id="course-form-modal-backdrop">
+    <div class="modal-card modal-lg">
+      <button class="modal-close-btn" id="course-form-modal-close">&times;</button>
+      
+      <div class="modal-header">
+        <h3 id="course-form-title">Upload New Course</h3>
+        <p>Fill in the course details to publish your curriculum to the SmartEdu marketplace.</p>
+      </div>
+
+      <div class="modal-body">
+        <form id="teacher-course-form">
+          <div class="form-group">
+            <label class="form-label">Course Title *</label>
+            <input type="text" id="input-course-title" class="form-input" placeholder="e.g. Master Production Microservices in Node & Go" required />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Description *</label>
+            <textarea id="input-course-desc" class="form-input" rows="3" placeholder="Provide a thorough overview of learning outcomes..." required></textarea>
+          </div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:1rem;">
+            <div class="form-group">
+              <label class="form-label">Category *</label>
+              <select id="input-course-category" class="custom-select" style="width:100%;">
+                <option value="Web Development">Web Development</option>
+                <option value="Artificial Intelligence">Artificial Intelligence</option>
+                <option value="Cloud Computing">Cloud Computing</option>
+                <option value="Cyber Security">Cyber Security</option>
+                <option value="Data Science">Data Science</option>
+                <option value="Mobile Development">Mobile Development</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Price ($ USD) *</label>
+              <input type="number" id="input-course-price" class="form-input" min="0" max="999" value="49" required />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Difficulty Level *</label>
+              <select id="input-course-difficulty" class="custom-select" style="width:100%;">
+                <option value="Beginner">Beginner</option>
+                <option value="Intermediate">Intermediate</option>
+                <option value="Advanced">Advanced</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Thumbnail Image URL *</label>
+            <input type="url" id="input-course-thumb" class="form-input" placeholder="https://images.unsplash.com/..." required />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Video Preview URL (YouTube Embed / MP4) *</label>
+            <input type="url" id="input-course-video" class="form-input" placeholder="https://www.youtube.com/embed/..." />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Tags (comma-separated for AI Engine) *</label>
+            <input type="text" id="input-course-tags" class="form-input" placeholder="React, Node.js, Express, Full Stack, MongoDB" required />
+          </div>
+
+          <div class="modal-footer" style="padding-right:0; padding-left:0; background:transparent;">
+            <button type="button" class="btn btn-secondary" onclick="Dashboard.closeCourseFormModal()">Cancel</button>
+            <button type="submit" class="btn btn-primary">Save & Publish</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       MODAL: CERTIFICATE PREVIEW
+       ========================================================================= -->
+  <div class="modal-backdrop" id="cert-modal-backdrop">
+    <div class="modal-card modal-lg">
+      <button class="modal-close-btn" id="cert-modal-close">&times;</button>
+      
+      <div class="modal-body" style="padding:2.5rem;">
+        <div class="certificate-preview-box" id="printable-certificate">
+          <div class="cert-logo">🎓</div>
+          <div class="cert-title">SmartEdu Institute of Technology</div>
+          <div class="cert-subtitle">Official Certificate of Completion & Engineering Competency</div>
+
+          <p class="cert-desc" style="margin-bottom:0.5rem;">This is proudly presented to</p>
+          <div class="cert-recipient" id="cert-recipient-name">Alex Morgan</div>
+
+          <p class="cert-desc">
+            for successfully completing all rigorous curriculum benchmarks, lab evaluations, and hands-on capstone modules in
+            <br />
+            <strong class="cert-course-name" id="cert-course-title">Full Stack Web Architecture</strong>.
+          </p>
+
+          <div class="cert-footer-row">
+            <div class="cert-sign-col">
+              <div class="cert-signature">Sarah Vance, Ph.D.</div>
+              <div class="cert-sign-role">Academic Director, SmartEdu</div>
+            </div>
+            <div style="text-align:center;">
+              <div style="font-size:0.75rem; color:#64748b; font-weight:700;">CREDENTIAL ID</div>
+              <div style="font-family:monospace; font-weight:bold; color:#059669;" id="cert-id-number">SE-CERT-948201</div>
+            </div>
+            <div class="cert-sign-col">
+              <div style="font-weight:700; color:#1e293b;" id="cert-issue-date">October 29, 2026</div>
+              <div class="cert-sign-role">Date of Issuance</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:1.5rem; display:flex; justify-content:center; gap:1rem;">
+          <button class="btn btn-primary" onclick="window.print()">
+            🖨️ Print / Download PDF
+          </button>
+          <button class="btn btn-secondary" onclick="showToast('Credential Copied', 'Verification URL copied to clipboard', 'success')">
+            🔗 Share Credential
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Application Scripts -->
+  <script src="/js/api.js"></script>
+  <script src="/js/state.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/cart.js"></script>
+  <script src="/js/checkout.js"></script>
+  <script src="/js/ai-recommender.js"></script>
+  <script src="/js/catalog.js"></script>
+  <script src="/js/dashboard.js"></script>
+  <script src="/js/main.js"></script>
+</body>
+</html>

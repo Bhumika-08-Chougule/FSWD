@@ -1,0 +1,100 @@
+[
+  {
+    "_id": "797ec8787253efb2be9a5c11",
+    "name": "Prof. Sarah Vance",
+    "email": "teacher@smartedu.dev",
+    "password": "$2a$10$j/a6zO0qlTNvV4BnotlZXeb/ggRUTq3H1.8aEfHQBLfuN4vnDpAQC",
+    "role": "teacher",
+    "avatar": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&q=80",
+    "enrolledCourses": [],
+    "learningStats": {
+      "hoursSpent": 18.5,
+      "completedCourses": [],
+      "weeklyActivity": [
+        {
+          "day": "Mon",
+          "hours": 2.5
+        },
+        {
+          "day": "Tue",
+          "hours": 3
+        },
+        {
+          "day": "Wed",
+          "hours": 1.5
+        },
+        {
+          "day": "Thu",
+          "hours": 4
+        },
+        {
+          "day": "Fri",
+          "hours": 2
+        },
+        {
+          "day": "Sat",
+          "hours": 3.5
+        },
+        {
+          "day": "Sun",
+          "hours": 2
+        }
+      ]
+    },
+    "createdAt": "2026-10-29T07:02:53.172Z",
+    "updatedAt": "2026-10-29T07:02:53.173Z"
+  },
+  {
+    "_id": "640211804441d34d45547f4d",
+    "name": "Alex Morgan",
+    "email": "student@smartedu.dev",
+    "password": "$2a$10$axfH2Wo1YSd1Cdg/Pg5e6elbHNjNs2mbVcsZAh7e8XOaU2nOs.kIy",
+    "role": "student",
+    "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&q=80",
+    "enrolledCourses": [
+      "fee896cb7bff3262d251ea4c",
+      "318b011ae4c55c7eb192bc76",
+      "99ce69dad651681e86179e42",
+      "6b3307d01820e6e5edd3ca8c",
+      "827c26408a37c88c681b42a4",
+      "8ed7cde3a6bf9b1154e4901b",
+      "62048c84d1bcce5b6dffc27e"
+    ],
+    "learningStats": {
+      "hoursSpent": 24.8,
+      "completedCourses": [],
+      "weeklyActivity": [
+        {
+          "day": "Mon",
+          "hours": 3.5
+        },
+        {
+          "day": "Tue",
+          "hours": 4.2
+        },
+        {
+          "day": "Wed",
+          "hours": 2.1
+        },
+        {
+          "day": "Thu",
+          "hours": 5
+        },
+        {
+          "day": "Fri",
+          "hours": 3
+        },
+        {
+          "day": "Sat",
+          "hours": 4.5
+        },
+        {
+          "day": "Sun",
+          "hours": 2.5
+        }
+      ]
+    },
+    "createdAt": "2026-10-29T07:02:53.296Z",
+    "updatedAt": "2026-10-29T07:39:58.789Z"
+  }
+]

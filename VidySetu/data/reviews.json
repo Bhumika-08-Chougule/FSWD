@@ -1,0 +1,36 @@
+[
+  {
+    "_id": "13adbafc8d3f1c8bf73534ac",
+    "courseId": "fee896cb7bff3262d251ea4c",
+    "userId": "640211804441d34d45547f4d",
+    "userName": "Alex Morgan",
+    "rating": 5,
+    "comment": "Absolutely hands-down the best full stack course I have taken. Clear architecture and great code quality!",
+    "sentimentTag": "Highly Recommended",
+    "createdAt": "2026-10-29T07:02:53.505Z",
+    "updatedAt": "2026-10-29T07:02:53.505Z"
+  },
+  {
+    "_id": "ce579c3eb331bc59327d0b68",
+    "courseId": "318b011ae4c55c7eb192bc76",
+    "userId": "640211804441d34d45547f4d",
+    "userName": "Alex Morgan",
+    "rating": 5,
+    "comment": "TensorFlow.js explanations were exceptionally intuitive. The browser ML projects were super cool.",
+    "sentimentTag": "Exceptional",
+    "createdAt": "2026-10-29T07:02:53.526Z",
+    "updatedAt": "2026-10-29T07:02:53.526Z"
+  },
+  {
+    "_id": "5d0f13c545c027253da8aec6",
+    "courseId": "99ce69dad651681e86179e42",
+    "userId": "640211804441d34d45547f4d",
+    "userName": "Alex Morgan",
+    "userAvatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&q=80",
+    "rating": 5,
+    "comment": "Super crisp explanations and production architecture examples!",
+    "sentimentTag": "Highly Recommended",
+    "createdAt": "2026-10-29T07:04:19.532Z",
+    "updatedAt": "2026-10-29T07:04:19.532Z"
+  }
+]

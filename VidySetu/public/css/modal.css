@@ -1,0 +1,509 @@
+/* ==========================================================================
+   SmartEdu Modals System (Auth, Course Details, Checkout, Reviews, Certs)
+   ========================================================================== */
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(7, 10, 18, 0.85);
+  backdrop-filter: blur(8px);
+  z-index: 3000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: all var(--transition-normal);
+}
+
+.modal-backdrop.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-card {
+  background: var(--slate-900);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-xl);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 30px var(--emerald-glow);
+  width: 100%;
+  max-width: 520px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  transform: scale(0.92) translateY(20px);
+  transition: transform var(--transition-bounce), opacity var(--transition-normal);
+}
+
+.modal-card.modal-lg {
+  max-width: 860px;
+}
+
+.modal-card.modal-xl {
+  max-width: 1020px;
+}
+
+.modal-backdrop.open .modal-card {
+  transform: scale(1) translateY(0);
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--card-border);
+  color: var(--slate-300);
+  font-size: 1.25rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+  z-index: 10;
+}
+
+.modal-close-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: var(--white);
+  transform: rotate(90deg);
+}
+
+.modal-header {
+  padding: 1.75rem 2rem 1.25rem;
+  border-bottom: 1px solid var(--card-border);
+}
+
+.modal-header h3 {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  color: var(--white);
+  font-weight: 700;
+}
+
+.modal-header p {
+  color: var(--slate-400);
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+.modal-body {
+  padding: 2rem;
+}
+
+.modal-footer {
+  padding: 1.25rem 2rem;
+  border-top: 1px solid var(--card-border);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1rem;
+  background: var(--slate-950);
+}
+
+/* Auth Tabs & Form */
+.auth-tabs {
+  display: flex;
+  background: rgba(255, 255, 255, 0.04);
+  padding: 4px;
+  border-radius: var(--radius-md);
+  margin-bottom: 1.5rem;
+}
+
+.auth-tab {
+  flex: 1;
+  padding: 0.65rem;
+  background: transparent;
+  border: none;
+  color: var(--slate-400);
+  font-weight: 600;
+  font-size: 0.9rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.auth-tab.active {
+  background: var(--emerald-500);
+  color: var(--slate-950);
+  font-weight: 700;
+  box-shadow: 0 2px 8px var(--emerald-glow);
+}
+
+/* Quick Demo Login Bar */
+.demo-logins-box {
+  background: rgba(16, 185, 129, 0.07);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  border-radius: var(--radius-md);
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.demo-logins-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--emerald-400);
+  margin-bottom: 0.65rem;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.demo-buttons-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.65rem;
+}
+
+.btn-demo {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: var(--white);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+.btn-demo:hover {
+  background: var(--emerald-500);
+  color: var(--slate-950);
+  border-color: var(--emerald-400);
+}
+
+.form-group {
+  margin-bottom: 1.25rem;
+}
+
+.form-label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--slate-200);
+  margin-bottom: 0.5rem;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-md);
+  color: var(--white);
+  font-size: 0.95rem;
+  outline: none;
+  transition: all var(--transition-fast);
+}
+
+.form-input:focus {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--emerald-500);
+  box-shadow: 0 0 10px var(--emerald-glow);
+}
+
+.role-selector {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.role-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem 0.5rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.role-option:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.role-option.selected {
+  border-color: var(--emerald-500);
+  background: rgba(16, 185, 129, 0.12);
+}
+
+.role-icon {
+  font-size: 1.75rem;
+  margin-bottom: 0.35rem;
+}
+
+.role-name {
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--white);
+}
+
+.role-desc {
+  font-size: 0.75rem;
+  color: var(--slate-400);
+  text-align: center;
+}
+
+/* Course Detail View Elements */
+.course-detail-layout {
+  display: grid;
+  grid-template-columns: 1.8fr 1.2fr;
+  gap: 2rem;
+}
+
+.video-container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: #000;
+  margin-bottom: 1.5rem;
+  border: 1px solid var(--card-border);
+}
+
+.video-container iframe, .video-container video {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.syllabus-accordion {
+  margin-top: 1.5rem;
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.syllabus-section {
+  border-bottom: 1px solid var(--card-border);
+}
+
+.syllabus-section:last-child {
+  border-bottom: none;
+}
+
+.syllabus-header {
+  padding: 1rem 1.25rem;
+  background: rgba(255, 255, 255, 0.03);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--white);
+  transition: background var(--transition-fast);
+}
+
+.syllabus-header:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.syllabus-lessons {
+  padding: 0.5rem 1.25rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.lesson-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: var(--slate-300);
+  padding: 0.4rem 0;
+}
+
+.lesson-item.free span.preview-badge {
+  color: var(--emerald-400);
+  font-size: 0.75rem;
+  font-weight: 700;
+  background: rgba(16, 185, 129, 0.1);
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+}
+
+/* Demo Checkout Elements */
+.checkout-steps {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.75rem;
+}
+
+.checkout-step {
+  flex: 1;
+  text-align: center;
+  padding: 0.75rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-md);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--slate-400);
+}
+
+.checkout-step.active {
+  background: rgba(16, 185, 129, 0.12);
+  border-color: var(--emerald-500);
+  color: var(--white);
+}
+
+.payment-options-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.payment-method-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 0.5rem;
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.03);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-align: center;
+}
+
+.payment-method-card:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.payment-method-card.selected {
+  border-color: var(--emerald-500);
+  background: rgba(16, 185, 129, 0.12);
+}
+
+.payment-method-card .method-icon {
+  font-size: 1.65rem;
+  margin-bottom: 0.35rem;
+}
+
+.payment-method-card .method-title {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--white);
+}
+
+.checkout-simulation-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  background: rgba(244, 63, 94, 0.08);
+  border: 1px dashed rgba(244, 63, 94, 0.3);
+  border-radius: var(--radius-md);
+  margin-bottom: 1.5rem;
+  font-size: 0.85rem;
+  color: #fda4af;
+}
+
+/* Certificate Generator Preview */
+.certificate-preview-box {
+  background: #ffffff;
+  color: #0f172a;
+  border-radius: var(--radius-md);
+  padding: 2.5rem;
+  border: 8px solid #0f172a;
+  outline: 2px dashed #059669;
+  outline-offset: -12px;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.cert-logo {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.cert-title {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: #0f172a;
+  text-transform: uppercase;
+}
+
+.cert-subtitle {
+  font-size: 0.95rem;
+  color: #475569;
+  margin-bottom: 1.5rem;
+}
+
+.cert-recipient {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 800;
+  color: #059669;
+  border-bottom: 2px solid #e2e8f0;
+  display: inline-block;
+  padding: 0 2rem 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.cert-desc {
+  font-size: 1rem;
+  color: #334155;
+  max-width: 500px;
+  margin: 0 auto 2rem;
+}
+
+.cert-course-name {
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.cert-footer-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid #cbd5e1;
+}
+
+.cert-sign-col {
+  text-align: center;
+}
+
+.cert-signature {
+  font-family: 'Brush Script MT', cursive, sans-serif;
+  font-size: 1.65rem;
+  color: #1e293b;
+  margin-bottom: 2px;
+}
+
+.cert-sign-role {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: #64748b;
+  font-weight: 700;
+}
+
+@media (max-width: 768px) {
+  .course-detail-layout {
+    grid-template-columns: 1fr;
+  }
+}

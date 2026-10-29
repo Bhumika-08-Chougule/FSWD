@@ -1,0 +1,80 @@
+[
+  {
+    "_id": "30dde86074b12518ecaee041",
+    "userId": "640211804441d34d45547f4d",
+    "userName": "Alex Morgan",
+    "userEmail": "student@smartedu.dev",
+    "courses": [
+      {
+        "courseId": "99ce69dad651681e86179e42",
+        "title": "Cross-Platform Mobile Apps with React Native & Expo",
+        "price": 65,
+        "thumbnailUrl": "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=800&q=80"
+      }
+    ],
+    "totalAmount": 65,
+    "paymentMethod": "card",
+    "paymentId": "PAY_DEMO_1793257459500_4680",
+    "status": "completed",
+    "createdAt": "2026-10-29T07:04:19.500Z",
+    "updatedAt": "2026-10-29T07:04:19.500Z"
+  },
+  {
+    "_id": "26f073d735eb0ebf107a7fec",
+    "userId": "640211804441d34d45547f4d",
+    "userName": "Alex Morgan",
+    "userEmail": "student@smartedu.dev",
+    "courses": [
+      {
+        "courseId": "6b3307d01820e6e5edd3ca8c",
+        "title": "Generative AI & LLM Application Engineering",
+        "price": 109,
+        "thumbnailUrl": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&q=80"
+      },
+      {
+        "courseId": "827c26408a37c88c681b42a4",
+        "title": "Mastering JavaScript: From ES6+ to Async Internals",
+        "price": 39,
+        "thumbnailUrl": "https://images.unsplash.com/photo-1579468118864-1b9ea3c0db4a?w=800&q=80"
+      },
+      {
+        "courseId": "8ed7cde3a6bf9b1154e4901b",
+        "title": "Modern Python for Data Science & Machine Learning",
+        "price": 59,
+        "thumbnailUrl": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&q=80"
+      },
+      {
+        "courseId": "62048c84d1bcce5b6dffc27e",
+        "title": "Cloud Architecture & Kubernetes DevOps Mastery",
+        "price": 99,
+        "thumbnailUrl": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&q=80"
+      }
+    ],
+    "totalAmount": 306,
+    "paymentMethod": "card",
+    "paymentId": "PAY_DEMO_1793257896553_4904",
+    "status": "completed",
+    "createdAt": "2026-10-29T07:11:36.553Z",
+    "updatedAt": "2026-10-29T07:11:36.553Z"
+  },
+  {
+    "_id": "65b2d5ac61b1d6eb657c7338",
+    "userId": "640211804441d34d45547f4d",
+    "userName": "Alex Morgan",
+    "userEmail": "student@smartedu.dev",
+    "courses": [
+      {
+        "courseId": "99ce69dad651681e86179e42",
+        "title": "Cross-Platform Mobile Apps with React Native & Expo",
+        "price": 65,
+        "thumbnailUrl": "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=800&q=80"
+      }
+    ],
+    "totalAmount": 65,
+    "paymentMethod": "card",
+    "paymentId": "PAY_DEMO_1793259598787_2093",
+    "status": "completed",
+    "createdAt": "2026-10-29T07:39:58.788Z",
+    "updatedAt": "2026-10-29T07:39:58.788Z"
+  }
+]
